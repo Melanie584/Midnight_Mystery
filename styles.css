@@ -1,0 +1,100 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background-color: #151515;
+  color: #f5f0e8;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 2px solid #5c4a72;
+  background-color: #241b2f;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+  font-size: 1.3rem;
+}
+
+.hero {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.65)
+        ),
+        url("qingyu-7PP4RKH8aII-unsplash.jpg");
+
+    background-size: cover;
+    background-position: center;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero p {
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+}
+
+main {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.intro-card {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 2px solid #8c7aa9;
+  background-color: #2f263b;
+  box-shadow: 0 0 20px rgba(140, 122, 169, 0.3);
+}
+
+.intro-card p {
+  line-height: 1.6;
+}
+
+button {
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  background-color: #d98c3f;
+  color: #151515;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #f0a85b;
+}
+
+footer {
+  padding: 1.5rem;
+  border-top: 2px solid #5c4a72;
+  background-color: #241b2f;
+}
+
+footer h3,
+footer p {
+  margin: 0.3rem 0;
+}
