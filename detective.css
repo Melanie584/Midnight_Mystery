@@ -1,4 +1,14 @@
 .crime_scene {
     width: 100%;
     height: auto;
+    overflow-x: hidden;
+}
+body {
+   margin: 0 auto;
+   display: block;
+}
+
+.detection_complete {
+
+    
 }
