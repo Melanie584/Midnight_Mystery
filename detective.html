@@ -11,19 +11,19 @@
   <img class="crime_scene" src="images/detective.JPG" alt="crime scene" />
 
   <section class="detection_complete">
-    <h2>🕵️ Put the clues together</h2>
-     <div class="word_bank" id="wordBank">
+   <h2>🕵️ Put the clues together</h2>
+    <div class="word_bank" id="wordBank">
       <p class="hint">Find clues in the scene above to collect words...</p>
     </div>
 
-    <div class="answer_area" id="answerArea">
-      <p class="label">Your sentence:</p>
-      <div class="answer_slots" id="answerSlots"></div>
-    </div>
+    <div class="answer_slots" id="answerSlots"></div>
 
-    <input type="text" id="answerInput" placeholder="Type your sentence here..." />
-    <button onclick="checkAnswer()">Submit Answer</button>
-    <p class="result" id="result"></p>
+    <div class="input_row">
+        <p class="label">Your sentence:</p>
+        <input type="text" id="answerInput" placeholder="Type your sentence here..." />
+        <button onclick="checkAnswer()">Submit Answer</button>
+        <p class="result" id="result"></p>
+    </div>
   </section>
 
 </body>

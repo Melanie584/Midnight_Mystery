@@ -9,6 +9,15 @@ body {
 }
 
 .detection_complete {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
 
-    
+.input_row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
