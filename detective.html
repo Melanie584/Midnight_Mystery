@@ -8,23 +8,55 @@
 </head>
 <body>
 
-  <img class="crime_scene" src="images/detective.JPG" alt="crime scene" />
+  <div class="crime_scene_wrapper">
+    <img class="crime_scene" src="images/detective.JPG" alt="crime scene" />
+
+    <div class="hotspot" id="hs-glass" style="left: 62%; top: 52%;" onclick="openModal('glass')" aria-label="Examine the glass">
+      <div class="hotspot__ring"></div>
+      <div class="hotspot__dot"></div>
+    </div>
+
+    <div class="hotspot" id="hs-purse" style="left: 66%; top: 72%;" onclick="openModal('purse')" aria-label="Examine the purse">
+      <div class="hotspot__ring"></div>
+      <div class="hotspot__dot"></div>
+    </div>
+
+    <div class="hotspot" id="hs-couch" style="left: 10%; top: 55%;" onclick="openModal('couch')" aria-label="Examine the armchair">
+      <div class="hotspot__ring"></div>
+      <div class="hotspot__dot"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true" onclick="closeModal(event)">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" onclick="closeModal()" aria-label="Close clue">&times;</button>
+      <div class="modal__icon" id="modalIcon"></div>
+      <h2 class="modal__title" id="modalTitle"></h2>
+      <p class="modal__clue" id="modalClue"></p>
+      <div class="modal__divider"></div>
+      <p class="modal__riddle-label">🔍 Riddle</p>
+      <p class="modal__riddle" id="modalRiddle"></p>
+      <div class="modal__answer-row">
+        <input type="text" id="riddleInput" class="modal__input" placeholder="Your answer..." aria-label="Riddle answer" />
+        <button class="modal__submit" onclick="checkRiddle()">Submit</button>
+      </div>
+      <p class="modal__feedback" id="modalFeedback" aria-live="polite"></p>
+    </div>
+  </div>
 
   <section class="detection_complete">
-   <h2>🕵️ Put the clues together</h2>
+    <h2>🕵️ Put the clues together</h2>
     <div class="word_bank" id="wordBank">
       <p class="hint">Find clues in the scene above to collect words...</p>
     </div>
-
-    <div class="answer_slots" id="answerSlots"></div>
-
     <div class="input_row">
-        <p class="label">Your sentence:</p>
-        <input type="text" id="answerInput" placeholder="Type your sentence here..." />
-        <button onclick="checkAnswer()">Submit Answer</button>
-        <p class="result" id="result"></p>
+      <p class="label">Your sentence:</p>
+      <input type="text" id="answerInput" placeholder="Type your sentence here..." />
+      <button onclick="checkAnswer()">Submit Answer</button>
+      <p class="result" id="result"></p>
     </div>
   </section>
 
+  <script src="detective.js"></script>
 </body>
 </html>
