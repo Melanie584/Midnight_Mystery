@@ -50,6 +50,14 @@ nav {
   letter-spacing: 3px;
 }
 
+nav select {
+  background-color: #000;
+  color: #f5f0e8;
+  border: 1px solid #8c7aa9;
+  padding: 0.4rem;
+  font-family: Georgia, serif;
+}
+
 main {
   padding: 2rem 1rem;
   text-align: center;
@@ -97,4 +105,40 @@ footer {
 footer h3,
 footer p {
   margin: 0.3rem 0;
+}
+
+.footer-answer{
+  position: relative;
+  width: 300px;
+  height: 60px;
+  margin-left: auto;
+  margin-right: 20px;
+  overflow: hidden;
+  background-color: #000;
+  text-align: center;
+}
+
+.footer-answer p {
+  margin: 0;
+  line-height: 60px;
+}
+
+.covered-answer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2;
+  transition: transform 0.5s ease;
+}
+
+.footer-answer:hover .covered-answer {
+  transform: translateX(100%);
 }
