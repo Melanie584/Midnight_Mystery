@@ -1,16 +1,15 @@
+import { getDetectiveName, saveProgress, loadProgress } from './gameUtils.js';
+
 let CLUES = {};
+let currentClue = null;
+const collectedWords = new Set();
 
 async function loadGameData() {
   try {
     const response = await fetch('clues.json'); 
-    
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    
+    if (!response.ok) throw new Error('Network response was not ok');
     CLUES = await response.json(); 
-    console.log("Game data loaded successfully!");
-    
+    restoreSavedGame();
   } catch (error) {
     console.error("Failed to load game data:", error);
   }
@@ -18,15 +17,35 @@ async function loadGameData() {
 
 window.onload = function() {
   loadGameData(); 
-  document.getElementById('introModalOverlay').classList.add('is-open');
+  
+  const detectiveName = getDetectiveName();
+  document.getElementById('introTitle').textContent = `Welcome, ${detectiveName}`;
+  
+  const intro = document.getElementById('introModalOverlay');
+  intro.classList.add('is-open');
 };
 
-function closeIntroModal() {
-  document.getElementById('introModalOverlay').classList.remove('is-open');
+function restoreSavedGame() {
+  const savedWords = loadProgress();
+  savedWords.forEach(word => {
+    const clueKey = Object.keys(CLUES).find(key => CLUES[key].word === word);
+    if (clueKey) addWordToBank(word, clueKey);
+  });
 }
 
-let currentClue = null;
-const collectedWords = new Set();
+function closeIntroModal() {
+  const overlay = document.getElementById('introModalOverlay');
+  const modal = overlay.querySelector('.modal');
+  
+  modal.style.transition = "transform 0.4s ease-in";
+  modal.style.transform = "translateY(-100vh)";
+  
+  setTimeout(() => {
+    overlay.classList.remove('is-open');
+    modal.style.transform = "";
+    modal.style.transition = "";
+  }, 400);
+}
 
 function openModal(clueKey) {
   currentClue = clueKey;
@@ -51,47 +70,43 @@ function closeModal(event) {
   if (event && event.target !== document.getElementById("modalOverlay")) return;
 
   const overlay = document.getElementById("modalOverlay");
-  overlay.classList.remove("is-open");
-  overlay.setAttribute("aria-hidden", "true");
-  currentClue = null;
+  const modal = overlay.querySelector('.modal');
+
+  modal.style.transition = "transform 0.4s ease-in";
+  modal.style.transform = "translateY(-100vh)";
+  
+  setTimeout(() => {
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    modal.style.transform = "";
+    modal.style.transition = "";
+    currentClue = null;
+  }, 400); 
 }
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    const overlay = document.getElementById("modalOverlay");
-    if (overlay.classList.contains("is-open")) {
-      overlay.classList.remove("is-open");
-      overlay.setAttribute("aria-hidden", "true");
-      currentClue = null;
-    }
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("riddleInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") checkRiddle();
-  });
-});
 
 function checkRiddle() {
   if (!currentClue) return;
 
-  // Converts the player's input to lowercase
   const input = document.getElementById("riddleInput").value.trim().toLowerCase();
   const data = CLUES[currentClue];
   const feedback = document.getElementById("modalFeedback");
-
-  // Converts all of the acceptable answers from your JSON file to lowercase
   const acceptableAnswers = data.answer.map(ans => ans.toLowerCase());
 
-  // Compares the two lowercase versions
   if (acceptableAnswers.includes(input)) {
     feedback.textContent = "✅ Correct! You've unlocked a clue word.";
     feedback.className = "modal__feedback correct";
+    
     addWordToBank(data.word, currentClue);
+    saveProgress(collectedWords); 
+    
+    setTimeout(() => {
+      closeModal();
+    }, 1500);
+    
   } else {
     feedback.textContent = "❌ Not quite. Look more carefully at the clue...";
     feedback.className = "modal__feedback wrong";
+    document.getElementById("riddleInput").value = "";
   }
 }
 
@@ -120,6 +135,8 @@ function checkAnswer() {
     result.textContent = "🎉 Case solved! Redirecting...";
     result.style.color = "#6fcf97";
     
+    localStorage.removeItem('mystery_game_progress'); 
+    
     setTimeout(() => {
       window.location.href = "victory.html"; 
     }, 1500);
@@ -127,5 +144,31 @@ function checkAnswer() {
   } else {
     result.textContent = "🔍 Keep investigating...";
     result.style.color = "#eb5757";
+    document.getElementById("answerInput").value = "";
   }
 }
+
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.checkRiddle = checkRiddle;
+window.checkAnswer = checkAnswer;
+window.closeIntroModal = closeIntroModal;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const overlay = document.getElementById("modalOverlay");
+    if (overlay.classList.contains("is-open")) {
+      closeModal();
+    }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("riddleInput")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkRiddle();
+  });
+});
+function toggleMenu() {
+  document.getElementById("mainNav").classList.toggle("is-open");
+}
+window.toggleMenu = toggleMenu;

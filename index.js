@@ -5,3 +5,8 @@ pageMenu.addEventListener("change", function() {
     
     window.location.href = selectedPage;
 })
+function startGame() {
+  const nameInput = document.getElementById("playerName").value.trim() || "Guest";
+  
+  window.location.href = `detective.html?name=${encodeURIComponent(nameInput)}`;
+}
