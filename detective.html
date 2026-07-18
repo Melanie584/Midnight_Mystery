@@ -7,7 +7,29 @@
   <link rel="stylesheet" href="detective.css" />
 </head>
 <body>
-
+  <div class="modal-overlay" id="introModalOverlay" aria-hidden="false">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+      <button class="modal__close" onclick="closeIntroModal()" aria-label="Close intro">&times;</button>
+      <div class="modal__icon">📜</div>
+      <h2 class="modal__title" id="introTitle">The Midnight Mystery</h2>
+      <div class="modal__clue" style="margin-bottom: 0;">
+        <p>A terrible crime has been committed, and the police are completely baffled. It is up to you to crack the case.</p>
+        <p><strong>Your Mission:</strong> Hover over the objects with your cursor in the crime picture scene below. Click on them to examine the evidence and solve the riddles.</p>
+        <p>For every riddle you solve, you will collect a specific word which will be displayed below above the submit button. Once you have found all the clues, put the words in the correct order at the bottom of the screen to form the final phrase and unmask the killer!</p>
+      </div>
+      <div class="modal__divider"></div>
+      <button class="modal__submit" onclick="closeIntroModal()" style="width: 100%;">Start Investigation</button>
+    </div>
+  </div>
+  <header class="game-header">
+    <h1>Midnight Mystery</h1>
+      <nav class="main-nav">
+        <a href="index.html"><span>🎃</span> Menu</a>
+        <a href="detective.html"><span>👀</span> Start Game</a>
+        <a href="how-to-play.html"><span>👻</span> How to Play</a>
+        <a href="contact.html"><span>🦇</span> Contact Us</a>
+      </nav>
+  </header>
   <div class="crime_scene_wrapper">
     <img class="crime_scene" src="images/detective.JPG" alt="crime scene" />
 

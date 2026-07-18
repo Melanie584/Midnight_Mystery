@@ -1,29 +1,29 @@
-const CLUES = {
-  couch: {
-    icon: "🛋️",
-    title: "Evidence #1 — The Armchair",
-    clue: "The blood didn’t spray. It soaked. One dark stain spread across the corner cushion of the couch — deep, concentrated. Someone sat here after they were injured… or they were injured here and never stood back up immediately.\n\nNo overturned furniture. No signs of panic.\n\nJust one strange detail: the indentation in the cushion beside the stain. Someone else sat next to them.\n\nNot to help.\n\nTo wait.", 
-    riddle: "I hold people in comfort and witness moments in silence. Sit with me long enough and I remember your shape. What am I?",
-    answer: ["chair", "armchair", "seat", "sofa", "couch"],
-    word: "ALIBI",
-  },
-  glass: {
-    icon: "🥂",
-    title: "Evidence #2 — The Champagne Glass",
-    clue: "A single fingerprint pressed clearly into the side of the glass. Beneath it, a faint streak of blood.\n\nWhoever held this wasn’t bleeding badly — just enough to leave a mark.\n\nThe drink inside was untouched.\n\nThat’s the unsettling part.\n\nPeople don’t pour themselves a drink during chaos.\n\nThey do it afterward.\n\nLike they knew there wasn’t anywhere else to be.",
-    riddle: "I am raised in celebration and shattered in grief. Fill me with truth and I overflow — fill me with lies and I ring hollow. What am I?",
-    answer: ["glass", "champagne glass", "flute", "wine glass"],
-    word: "WITNESS",
-  },
-  purse: {
-    icon: "👜",
-    title: "Evidence #3 — The Purse",
-    clue: "The purse looked ordinary until we opened it.\n\nWallet. Keys. Receipts.\n\nAnd beneath everything else — a kitchen knife wrapped in a scarf, the blade stained dark red.\n\nToo deliberate to be panic.\n\nToo hidden to be an accident.\n\nWhoever placed it there wanted two things at once:\n\nTo keep it close.\n\nAnd to make sure nobody noticed until they were already gone.", 
-    riddle: "I carry secrets without understanding them. Open me and pieces of a life spill out. What am I?",
-    answer: ["purse", "bag", "handbag"],
-    word: "MOTIVE",
-  },
+let CLUES = {};
+
+async function loadGameData() {
+  try {
+    const response = await fetch('clues.json'); 
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    CLUES = await response.json(); 
+    console.log("Game data loaded successfully!");
+    
+  } catch (error) {
+    console.error("Failed to load game data:", error);
+  }
+}
+
+window.onload = function() {
+  loadGameData(); 
+  document.getElementById('introModalOverlay').classList.add('is-open');
 };
+
+function closeIntroModal() {
+  document.getElementById('introModalOverlay').classList.remove('is-open');
+}
 
 let currentClue = null;
 const collectedWords = new Set();
@@ -76,11 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkRiddle() {
   if (!currentClue) return;
 
+  // Converts the player's input to lowercase
   const input = document.getElementById("riddleInput").value.trim().toLowerCase();
   const data = CLUES[currentClue];
   const feedback = document.getElementById("modalFeedback");
 
-  if (data.answer.includes(input)) {
+  // Converts all of the acceptable answers from your JSON file to lowercase
+  const acceptableAnswers = data.answer.map(ans => ans.toLowerCase());
+
+  // Compares the two lowercase versions
+  if (acceptableAnswers.includes(input)) {
     feedback.textContent = "✅ Correct! You've unlocked a clue word.";
     feedback.className = "modal__feedback correct";
     addWordToBank(data.word, currentClue);
@@ -108,14 +113,17 @@ function addWordToBank(word, clueKey) {
 }
 
 function checkAnswer() {
-  const input = document.getElementById("answerInput").value.trim().toUpperCase();
+  const input = document.getElementById("answerInput").value.trim().toLowerCase();
   const result = document.getElementById("result");
-  const allWords = Object.values(CLUES).map((c) => c.word);
-  const hasAll = allWords.every((w) => input.includes(w));
-
-  if (hasAll) {
-    result.textContent = "🎉 Case solved!";
+  
+  if (input === "jessica murdered jerry") {
+    result.textContent = "🎉 Case solved! Redirecting...";
     result.style.color = "#6fcf97";
+    
+    setTimeout(() => {
+      window.location.href = "victory.html"; 
+    }, 1500);
+
   } else {
     result.textContent = "🔍 Keep investigating...";
     result.style.color = "#eb5757";
