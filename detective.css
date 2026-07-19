@@ -24,6 +24,21 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
+.help-btn {
+  background: #2f263b;
+  border: 1px solid #5c4a72;
+  color: #c9c0d8;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: Georgia, serif;
+  transition: all 0.3s ease;
+}
+.help-btn:hover {
+  background: #5c4a72;
+  color: #fff;
+}
+
 .main-nav {
   display: flex;
   gap: 25px; 

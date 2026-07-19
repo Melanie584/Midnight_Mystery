@@ -21,9 +21,17 @@ window.onload = function() {
   const detectiveName = getDetectiveName();
   document.getElementById('introTitle').textContent = `Welcome, ${detectiveName}`;
   
-  const intro = document.getElementById('introModalOverlay');
-  intro.classList.add('is-open');
+  if (!localStorage.getItem('hasSeenIntro')) {
+    const intro = document.getElementById('introModalOverlay');
+    intro.classList.add('is-open');
+    localStorage.setItem('hasSeenIntro', 'true');
+  }
 };
+
+function openIntroModal() {
+  const overlay = document.getElementById('introModalOverlay');
+  overlay.classList.add('is-open');
+}
 
 function restoreSavedGame() {
   const savedWords = loadProgress();
@@ -153,6 +161,7 @@ window.closeModal = closeModal;
 window.checkRiddle = checkRiddle;
 window.checkAnswer = checkAnswer;
 window.closeIntroModal = closeIntroModal;
+window.openIntroModal = openIntroModal;
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
