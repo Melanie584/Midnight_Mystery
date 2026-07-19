@@ -173,10 +173,17 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Submit riddle on Enter
   document.getElementById("riddleInput")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") checkRiddle();
   });
+
+  // Submit final answer on Enter
+  document.getElementById("answerInput")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkAnswer();
+  });
 });
+
 function toggleMenu() {
   document.getElementById("mainNav").classList.toggle("is-open");
 }
