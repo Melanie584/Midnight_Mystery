@@ -7,6 +7,10 @@ body {
   font-family: Georgia, serif;
   background-color: #151515;
   color: #f5f0e8;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
@@ -60,6 +64,7 @@ nav select {
 }
 
 main {
+  flex: 1;
   padding: 2rem 1rem;
   text-align: center;
 }
@@ -81,7 +86,8 @@ h2 {
 }
 
 .intro-card {
-  max-width: 500px;
+  width: 100%;
+  max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
   border: 2px solid #8c7aa9;
@@ -91,6 +97,33 @@ h2 {
 
 .intro-card p {
   line-height: 1.6;
+}
+
+.contact-form{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: Georgia, serif;
+}
+
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+#successMessage {
+  color: #7cfc7c;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
 }
 
 button {

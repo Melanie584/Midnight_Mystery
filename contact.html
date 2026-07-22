@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Contact Us</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="index.js" defer ></script>
 </head>
 <body>
 
@@ -16,41 +17,45 @@
         <span>👀</span>
         <span>🎃</span>
 
-            <a href="index.html">Menu</a>
+            <a href="index.html">Home</a>
             <a href="detective.html">Start Game</a>
             <a href="how-to-play.html">How to play</a>
             <a href="contact.html">Contact Us</a>
         </nav>
     </header>
 
-    <h1>Contact Us</h1>
+    <main>
+        <h2>Contact Us</h2>
 
-    <form>
+        <section class="intro-card">
 
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" required>
+            <form class="contact-form" id="contactForm">
 
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required>
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required>
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message" minlength="10" required></textarea>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required>
 
-        <button type="submit">Send Message</button>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" minlength="10" required></textarea>
 
-    </form>
+                <button type="submit">Send Message</button>
 
+                <p id="successMessage"></p>
 
-
-
+            </form>
+        </section>
+    </main>
 
     <footer>
         <h3>Riddle</h3>
-        <p>The loudest answer is rarely right.
-        What helps solve a mystery?</p>
+        <p>I travel without feet and speak without a voice
+            You send me away, then wait for a reply
+            What am I?</p>
 
         <div class="footer-answer">
-        <p> Clues </p>
+        <p> A Message </p>
         <div class="covered-answer">
             Move to reveal
         </div>
