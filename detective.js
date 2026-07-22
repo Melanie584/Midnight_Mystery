@@ -1,32 +1,59 @@
-const CLUES = {
-  couch: {
-    icon: "🛋️",
-    title: "Evidence #1 — The Armchair",
-    clue: "The blood didn’t spray. It soaked. One dark stain spread across the corner cushion of the couch — deep, concentrated. Someone sat here after they were injured… or they were injured here and never stood back up immediately.\n\nNo overturned furniture. No signs of panic.\n\nJust one strange detail: the indentation in the cushion beside the stain. Someone else sat next to them.\n\nNot to help.\n\nTo wait.", 
-    riddle: "I hold people in comfort and witness moments in silence. Sit with me long enough and I remember your shape. What am I?",
-    answer: ["chair", "armchair", "seat", "sofa", "couch"],
-    word: "ALIBI",
-  },
-  glass: {
-    icon: "🥂",
-    title: "Evidence #2 — The Champagne Glass",
-    clue: "A single fingerprint pressed clearly into the side of the glass. Beneath it, a faint streak of blood.\n\nWhoever held this wasn’t bleeding badly — just enough to leave a mark.\n\nThe drink inside was untouched.\n\nThat’s the unsettling part.\n\nPeople don’t pour themselves a drink during chaos.\n\nThey do it afterward.\n\nLike they knew there wasn’t anywhere else to be.",
-    riddle: "I am raised in celebration and shattered in grief. Fill me with truth and I overflow — fill me with lies and I ring hollow. What am I?",
-    answer: ["glass", "champagne glass", "flute", "wine glass"],
-    word: "WITNESS",
-  },
-  purse: {
-    icon: "👜",
-    title: "Evidence #3 — The Purse",
-    clue: "The purse looked ordinary until we opened it.\n\nWallet. Keys. Receipts.\n\nAnd beneath everything else — a kitchen knife wrapped in a scarf, the blade stained dark red.\n\nToo deliberate to be panic.\n\nToo hidden to be an accident.\n\nWhoever placed it there wanted two things at once:\n\nTo keep it close.\n\nAnd to make sure nobody noticed until they were already gone.", 
-    riddle: "I carry secrets without understanding them. Open me and pieces of a life spill out. What am I?",
-    answer: ["purse", "bag", "handbag"],
-    word: "MOTIVE",
-  },
-};
+import { getDetectiveName, saveProgress, loadProgress } from './gameUtils.js';
 
+let CLUES = {};
 let currentClue = null;
 const collectedWords = new Set();
+
+async function loadGameData() {
+  try {
+    const response = await fetch('clues.json'); 
+    if (!response.ok) throw new Error('Network response was not ok');
+    CLUES = await response.json(); 
+    restoreSavedGame();
+  } catch (error) {
+    console.error("Failed to load game data:", error);
+  }
+}
+
+window.onload = function() {
+  loadGameData(); 
+  
+  const detectiveName = getDetectiveName();
+  document.getElementById('introTitle').textContent = `Welcome, ${detectiveName}`;
+  
+  if (!localStorage.getItem('hasSeenIntro')) {
+    const intro = document.getElementById('introModalOverlay');
+    intro.classList.add('is-open');
+    localStorage.setItem('hasSeenIntro', 'true');
+  }
+};
+
+function openIntroModal() {
+  const overlay = document.getElementById('introModalOverlay');
+  overlay.classList.add('is-open');
+}
+
+function restoreSavedGame() {
+  const savedWords = loadProgress();
+  savedWords.forEach(word => {
+    const clueKey = Object.keys(CLUES).find(key => CLUES[key].word === word);
+    if (clueKey) addWordToBank(word, clueKey);
+  });
+}
+
+function closeIntroModal() {
+  const overlay = document.getElementById('introModalOverlay');
+  const modal = overlay.querySelector('.modal');
+  
+  modal.style.transition = "transform 0.4s ease-in";
+  modal.style.transform = "translateY(-100vh)";
+  
+  setTimeout(() => {
+    overlay.classList.remove('is-open');
+    modal.style.transform = "";
+    modal.style.transition = "";
+  }, 400);
+}
 
 function openModal(clueKey) {
   currentClue = clueKey;
@@ -51,27 +78,19 @@ function closeModal(event) {
   if (event && event.target !== document.getElementById("modalOverlay")) return;
 
   const overlay = document.getElementById("modalOverlay");
-  overlay.classList.remove("is-open");
-  overlay.setAttribute("aria-hidden", "true");
-  currentClue = null;
+  const modal = overlay.querySelector('.modal');
+
+  modal.style.transition = "transform 0.4s ease-in";
+  modal.style.transform = "translateY(-100vh)";
+  
+  setTimeout(() => {
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    modal.style.transform = "";
+    modal.style.transition = "";
+    currentClue = null;
+  }, 400); 
 }
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    const overlay = document.getElementById("modalOverlay");
-    if (overlay.classList.contains("is-open")) {
-      overlay.classList.remove("is-open");
-      overlay.setAttribute("aria-hidden", "true");
-      currentClue = null;
-    }
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("riddleInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") checkRiddle();
-  });
-});
 
 function checkRiddle() {
   if (!currentClue) return;
@@ -79,14 +98,23 @@ function checkRiddle() {
   const input = document.getElementById("riddleInput").value.trim().toLowerCase();
   const data = CLUES[currentClue];
   const feedback = document.getElementById("modalFeedback");
+  const acceptableAnswers = data.answer.map(ans => ans.toLowerCase());
 
-  if (data.answer.includes(input)) {
+  if (acceptableAnswers.includes(input)) {
     feedback.textContent = "✅ Correct! You've unlocked a clue word.";
     feedback.className = "modal__feedback correct";
+    
     addWordToBank(data.word, currentClue);
+    saveProgress(collectedWords); 
+    
+    setTimeout(() => {
+      closeModal();
+    }, 1500);
+    
   } else {
     feedback.textContent = "❌ Not quite. Look more carefully at the clue...";
     feedback.className = "modal__feedback wrong";
+    document.getElementById("riddleInput").value = "";
   }
 }
 
@@ -108,16 +136,55 @@ function addWordToBank(word, clueKey) {
 }
 
 function checkAnswer() {
-  const input = document.getElementById("answerInput").value.trim().toUpperCase();
+  const input = document.getElementById("answerInput").value.trim().toLowerCase();
   const result = document.getElementById("result");
-  const allWords = Object.values(CLUES).map((c) => c.word);
-  const hasAll = allWords.every((w) => input.includes(w));
-
-  if (hasAll) {
-    result.textContent = "🎉 Case solved!";
+  
+  if (input === "jessica murdered jerry") {
+    result.textContent = "🎉 Case solved! Redirecting...";
     result.style.color = "#6fcf97";
+    
+    localStorage.removeItem('mystery_game_progress'); 
+    
+    setTimeout(() => {
+      window.location.href = "victory.html"; 
+    }, 1500);
+
   } else {
     result.textContent = "🔍 Keep investigating...";
     result.style.color = "#eb5757";
+    document.getElementById("answerInput").value = "";
   }
 }
+
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.checkRiddle = checkRiddle;
+window.checkAnswer = checkAnswer;
+window.closeIntroModal = closeIntroModal;
+window.openIntroModal = openIntroModal;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const overlay = document.getElementById("modalOverlay");
+    if (overlay.classList.contains("is-open")) {
+      closeModal();
+    }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Submit riddle on Enter
+  document.getElementById("riddleInput")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkRiddle();
+  });
+
+  // Submit final answer on Enter
+  document.getElementById("answerInput")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkAnswer();
+  });
+});
+
+function toggleMenu() {
+  document.getElementById("mainNav").classList.toggle("is-open");
+}
+window.toggleMenu = toggleMenu;

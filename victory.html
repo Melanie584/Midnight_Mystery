@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Victory - Midnight Mystery</title>
+  <link rel="stylesheet" href="detective.css" />
+</head>
+<body>
+  
+  <header class="game-header">
+  <h1>Midnight Mystery</h1>
+  
+  <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+
+  <nav class="main-nav" id="mainNav">
+    <a href="index.html"><span>🎃</span> Menu</a>
+    <a href="detective.html"><span>👀</span> Start Game</a>
+    <a href="how-to-play.html"><span>👻</span> How to Play</a>
+    <a href="contact.html"><span>🦇</span> Contact Us</a>
+  </nav>
+</header>
+
+  <div class="crime_scene_wrapper">
+    
+    <img class="crime_scene" src="images/woman_jail.png" alt="Case Closed" style="border-bottom: 2px solid #5c4a72;" />
+
+    <div class="victory_content">
+      <h2>Case Closed!</h2>
+      
+      <p>You have successfully found the murderer! No one got away this time. You caught the guilty one and have served justice.</p>
+      
+      <p class="outro">Thank you for participating in the game and solving the Midnight Mystery.</p>
+
+      <div class="input_row" style="margin-top: 2rem;">
+        <button onclick="window.location.href='index.html'">Return to Menu</button>
+      </div>
+    </div>
+
+  </div>
+<script type="module" src="detective.js"></script>
+</body>
+</html>

@@ -5,19 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Midnight Mystery</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="index.js" defer ></script>
+  <script src="index.js" defer></script>
 </head>
 <body>
-
   <header>
     <h1>Midnight Mystery</h1>
-
       <nav class="main-nav">
       <span>👻</span>
       <span>👀</span>
       <span>🎃</span>
 
-        <a href="index.html">Home</a>
+        <a href="index.html">Menu</a>
         <a href="detective.html">Start Game</a>
         <a href="how-to-play.html">How to play</a>
         <a href="contact.html">Contact Us</a>
@@ -30,7 +28,6 @@
 
   <main>
     <h2>Welcome Detective</h2>
-
     <section class="intro-card">
         <p>
         Someone has hidden the truth, and it is your job to uncover it.
@@ -38,25 +35,23 @@
         before time runs out.
         </p>
 
-      <a href="detective.html" >
-        <button>Begin Investigation</button>
-      </a>
+      <div style="margin-bottom: 20px;">
+        <input type="text" id="playerName" placeholder="Enter your detective name..." autocomplete="off" style="padding: 8px; font-family: Georgia, serif; width: 80%; max-width: 250px;" />
+      </div>
+
+      <button onclick="startGame()">Begin Investigation</button>
     </section>
   </main>
 
   <footer>
     <h3>Riddle</h3>
-    <p>The loudest answer is rarely right.
-    What helps solve a mystery?</p>
-
+    <p>The loudest answer is rarely right. What helps solve a mystery?</p>
     <div class="footer-answer">
       <p> Clues </p>
       <div class="covered-answer">
         Move to reveal
       </div>
     </div>
-
   </footer>
-
 </body>
 </html>

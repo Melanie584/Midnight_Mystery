@@ -1,16 +1,75 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: Georgia, serif; 
   margin: 0;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;          
+  background-color: #1e1e24;
+  padding: 15px 40px;
+  border-bottom: 3px solid #5c4a72; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-header h1 {
+  margin: 0;
+  color: white;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.help-btn {
+  background: #2f263b;
+  border: 1px solid #5c4a72;
+  color: #c9c0d8;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
   font-family: Georgia, serif;
-  background-color: #151515;
-  color: #f5f0e8;
+  transition: all 0.3s ease;
+}
+.help-btn:hover {
+  background: #5c4a72;
+  color: #fff;
+}
+
+.main-nav {
+  display: flex;
+  gap: 25px; 
+}
+
+.main-nav a {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: #f4a261;
 }
 
 .crime_scene_wrapper {
   position: relative;
-  width: 100%;
+  width: 90%;
+  max-width: 900px; 
+  margin: 2rem auto; 
   line-height: 0;
+  
+  border: 2px solid #5c4a72; 
+  border-radius: 8px; 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); 
+  overflow: hidden; 
 }
 
 .crime_scene {
@@ -211,7 +270,7 @@ body {
 }
 
 .hint {
-  color: #5c4a72;
+  color: white;
   font-style: italic;
 }
 
@@ -242,5 +301,91 @@ body {
   color: #f5f0e8;
   font-family: Georgia, serif;
 }
+.input_row button {
+  padding: 0.5rem 1.2rem;
+  background-color: #d98c3f;
+  color: #151515;
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.input_row button:hover {
+  background-color: #f0a85b;
+}
 
 .result { margin: 0; }
+
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #d98c3f;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Victory Page Styles */
+.victory_content {
+  padding: 2rem 20px 3rem;
+  text-align: center;
+  line-height: 1.6; 
+  background-color: #1e1e24; 
+}
+
+.victory_content h2 {
+  color: #d98c3f; 
+  font-size: 2.2rem;
+  margin: 0 0 1rem;
+  letter-spacing: 1px;
+}
+
+.victory_content p {
+  color: #f5f0e8;
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+}
+
+.victory_content .outro {
+  color: #c9c0d8;
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .game-header {
+    flex-wrap: wrap;
+    padding: 10px 20px;
+  }
+  
+  .mobile-menu-btn {
+    display: block; 
+  }
+
+  .main-nav {
+    display: none; 
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    gap: 15px;
+  }
+
+  .main-nav.is-open {
+    display: flex; 
+  }
+
+  .input_row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .input_row input, .input_row button {
+    width: 100%;
+  }
+}
