@@ -22,3 +22,13 @@ if(contactForm && successMessage) {
         contactForm.reset();
     });
 }
+function startGame() {
+  const nameInput = document.getElementById("playerName");
+  const name = nameInput ? nameInput.value.trim() : "";
+  
+  if (name) {
+    window.location.href = `detective.html?name=${encodeURIComponent(name)}`;
+  } else {
+    window.location.href = "detective.html";
+  }
+}
